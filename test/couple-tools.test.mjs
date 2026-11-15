@@ -40,9 +40,6 @@ test('hediye koleksiyonu geçersiz payloadları atlar ve yönü doğru belirler'
   assert.deepEqual(result.gifts.map(x=>x.direction), ['received','sent']);
 });
 
-import { GAME_TYPES } from '../games.mjs';
-import { DRAW_TYPE } from '../drawing.mjs';
-test('mevcut çift tahmini ve çizim oyunları katalogda kalır',()=>{assert.equal(GAME_TYPES.know.name,'Beni ne kadar tanıyorsun?');assert.equal(DRAW_TYPE.draw.name,'Çiz bakalım');});
 
 import { GAME_TYPES } from '../games.mjs';
 import { DRAW_TYPE } from '../drawing.mjs';

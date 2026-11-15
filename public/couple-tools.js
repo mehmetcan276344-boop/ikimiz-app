@@ -3,6 +3,24 @@
 const corePromise=import('/couple-tools-core.mjs').then(core=>{window.IkimizCoupleTools=core;return core;});
 let datePick=null,spinClock=0,spinEnd=0,recapYear=0,melodyClock=0,melodyContext=null,melodyNote=0,giftFilter='all';
 const dlg=()=>document.getElementById('modal');
+let gameCounterCache={couple:'',value:null,at:0,pending:null};
+const oldHome=home;
+home=function(){
+ const html=oldHome(),couple=state?.couple?.id||'';
+ const counts={messages:items('message').length,memories:items('memory').length,plans:items('plan').length};
+ const games=gameCounterCache.couple===couple&&gameCounterCache.value!==null?gameCounterCache.value:'…';
+ const panel='<section class="couple-counters" aria-label="Bizim ortak sayacımız"><div class="counter-heading"><span class="counter-heart" aria-hidden="true">♡</span><div><p class="eyebrow">BİZDEN BİRİKENLER</p><h2>Birlikte kaç şey biriktirdik?</h2></div></div><div class="counter-grid"><button type="button" class="counter-tile" data-tab="chat"><span class="counter-icon">💬</span><strong data-counter="messages">'+counts.messages+'</strong><small>mesaj</small></button><button type="button" class="counter-tile" data-tab="memory"><span class="counter-icon">📸</span><strong data-counter="memories">'+counts.memories+'</strong><small>anı</small></button><button type="button" class="counter-tile" data-tab="games"><span class="counter-icon">🎮</span><strong data-counter="games" aria-live="polite">'+games+'</strong><small>oyun oturumu</small></button><button type="button" class="counter-tile" data-tab="calendar"><span class="counter-icon">✨</span><strong data-counter="plans">'+counts.plans+'</strong><small>ortak plan</small></button></div><p class="counter-note" data-counter-note>Her sayı, ikinize ait küçük bir hikâye ♡</p></section>';
+ queueMicrotask(refreshGameCounter);
+ return html.replace('<div class="grid">',panel+'<div class="grid">');
+};
+async function refreshGameCounter(){
+ const couple=state?.couple?.id;if(!couple||tab!=='home')return;
+ const cached=gameCounterCache.couple===couple&&Date.now()-gameCounterCache.at<20000;
+ if(cached){document.querySelectorAll('[data-counter="games"]').forEach(n=>n.textContent=gameCounterCache.value);return;}
+ if(gameCounterCache.pending){await gameCounterCache.pending;return;}
+ gameCounterCache.pending=(async()=>{try{const data=await api('games');if(state?.couple?.id!==couple)return;const value=Array.isArray(data.games)?data.games.length:0;gameCounterCache={couple,value,at:Date.now(),pending:null};document.querySelectorAll('[data-counter="games"]').forEach(n=>{n.textContent=value;n.classList.remove('counter-pop');void n.offsetWidth;n.classList.add('counter-pop');});}catch{const note=document.querySelector('[data-counter-note]');if(note)note.textContent='Oyun sayısı şu an yüklenemedi; tekrar ana sayfaya geldiğinde yenilenir.';gameCounterCache.pending=null;}})();
+ await gameCounterCache.pending;
+}
 const oldMemories=memories;
 memories=function(){
  const html=oldMemories(),all=items('memory'),years=[...new Set(all.map(x=>(x.date||'').slice(0,4)).filter(y=>/^\d{4}$/.test(y)))].sort((a,b)=>b.localeCompare(a));

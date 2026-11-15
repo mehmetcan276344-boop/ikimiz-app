@@ -1,6 +1,6 @@
 # Android 3.8.7 — kod 20
 
-APK: https://ikimiz-production-31ff1f6c.up.railway.app/downloads/ikimiz-3.8.7.apk
+APK: https://ikimiz-production-17d04203.up.railway.app/downloads/ikimiz-3.8.7.apk
 SHA-256: 3a0164095196bd3e5a1768e06d2a14b1787ab4ffd3fcb8943c1662e0b9052944
 İmza: 118f62b39e5da1c4e834e7e23e81887b599e4307ca8d4afc28963b9dfbd4ca58
 

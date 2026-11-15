@@ -2,7 +2,7 @@
   "webVersion": "3.18.0",
   "androidVersion": "3.9.0",
   "androidVersionCode": 23,
-  "androidUrl": "https://ikimiz-production-31ff1f6c.up.railway.app/downloads/ikimiz-3.9.0.apk",
+  "androidUrl": "https://ikimiz-production-17d04203.up.railway.app/downloads/ikimiz-3.9.0.apk",
   "voiceAndroidMinimum": "3.7.0",
   "androidDistribution": "self-hosted",
   "androidSha256": "39d0096543d39c7954401aaa52f2c60c66930d823afd6d5d9db71d2ce709ef3c"

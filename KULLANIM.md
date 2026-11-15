@@ -2,7 +2,7 @@
 
 ## Hemen aç
 
-https://ikimiz-production-31ff1f6c.up.railway.app
+https://ikimiz-production-17d04203.up.railway.app
 
 İkiniz de bu adresi kullanın. Her kişi kendi hesabını oluşturur. İlk kişi çift alanı oluşturup sevgilisine davet kodunu verir; ikinci kişi kendi hesabından koda katılır.
 

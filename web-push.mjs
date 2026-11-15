@@ -2,7 +2,7 @@ import {notificationPreviews} from './notification-previews.mjs';
 import * as webpush from 'web-push';
 import {createHash,ECDH} from 'node:crypto';
 const fail=(status,message)=>{throw Object.assign(new Error(message),{status});};
-export function webPushFeatures(db,{publicKey=process.env.VAPID_PUBLIC_KEY,privateKey=process.env.VAPID_PRIVATE_KEY,subject=process.env.VAPID_SUBJECT||'https://ikimiz-production-31ff1f6c.up.railway.app',transport,now=Date.now}={}){
+export function webPushFeatures(db,{publicKey=process.env.VAPID_PUBLIC_KEY,privateKey=process.env.VAPID_PRIVATE_KEY,subject=process.env.VAPID_SUBJECT||'https://ikimiz-production-17d04203.up.railway.app',transport,now=Date.now}={}){
  const previews=notificationPreviews(db);
  db.exec(`CREATE TABLE IF NOT EXISTS web_push_subscriptions(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,subscription TEXT NOT NULL,created INTEGER NOT NULL);
  CREATE TABLE IF NOT EXISTS web_push_jobs(id INTEGER PRIMARY KEY AUTOINCREMENT,subscription_id TEXT NOT NULL REFERENCES web_push_subscriptions(id) ON DELETE CASCADE,entry_id TEXT NOT NULL REFERENCES entries(id) ON DELETE CASCADE,kind TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'pending',attempts INTEGER NOT NULL DEFAULT 0,next_try INTEGER NOT NULL,UNIQUE(subscription_id,entry_id));`);

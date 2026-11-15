@@ -48,7 +48,7 @@ Bildirimler tarayıcıda arka planda web push olarak uygulanmadı. Mobil derleme
 
 ## Kalıcı sunucu
 
-Sunucu Railway üzerinde yayınlandı: https://ikimiz-production-31ff1f6c.up.railway.app. Kalıcı 500 MB disk /app/data yoluna bağlıdır. Node.js 24, tek süreç, HTTPS ve güvenli oturum çerezleri kullanılır. Yayın yapılandırması .railway/railway.ts ile yönetilir; eski railway.toml kaldırıldı.
+Sunucu Railway üzerinde yayınlandı: https://ikimiz-production-17d04203.up.railway.app. Kalıcı 500 MB disk /app/data yoluna bağlıdır. Node.js 24, tek süreç, HTTPS ve güvenli oturum çerezleri kullanılır. Yayın yapılandırması .railway/railway.ts ile yönetilir; eski railway.toml kaldırıldı.
 
 Railway üzerinde kalıcı bir volume'u **/app/data** yoluna bağla. Bir replica kullan. HTTPS adresini üret; `SECURE_COOKIES=1` ayarla. Volume olmadan SQLite verileri yeniden yayınlama sırasında kaybolabilir. Yedekleri düzenli olarak al. Yerel kullanıcıları taşımak ayrı, kontrollü bir veri aktarımı gerektirir; bu teslimde kişisel veritabanın bir dış hizmete yüklenmedi.
 

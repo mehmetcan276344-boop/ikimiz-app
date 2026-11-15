@@ -32,4 +32,4 @@ Hesap bilgileri, ortak içerikler, yorumlar ve profil fotoğrafları uygulama su
 Bu dosya mağazaya gönderilmiş bir başvuru veya mağaza onayı değildir.
 
 ## Hesap silme yönergeleri
-Kamuya açık yardım adresi: https://ikimiz-production-31ff1f6c.up.railway.app/hesap-silme.html
+Kamuya açık yardım adresi: https://ikimiz-production-17d04203.up.railway.app/hesap-silme.html

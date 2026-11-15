@@ -20,6 +20,11 @@ test('Tek görüntülemelik fotoğraf ve video gizlenir, izinle bir kez açılı
   const photoId=(await api('entries','POST',{kind:'mini',text:'Tek seferlik fotoğraf',clientId:'a'.repeat(32),image:photo},sender.token)).body.id;
   const photoState=(await api('state','GET',undefined,receiver.token)).body.entries.find(entry=>entry.id===photoId);
   assert.equal(photoState.mini_media_kind,'photo');
+  const photoInbox=await api('notifications','GET',undefined,receiver.token);
+  assert.equal(photoInbox.body.unread,1);
+  assert.equal(photoInbox.body.items[0].kind,'mini');
+  assert.equal(photoInbox.body.items[0].target.tab,'chat');
+  assert.match(photoInbox.body.items[0].text,/tek seferlik/);
   assert.equal(photoState.image,null);
   assert.equal(photoState.file,null);
   assert.equal(JSON.stringify(photoState).includes('YWJj'),false);
@@ -36,6 +41,13 @@ test('Tek görüntülemelik fotoğraf ve video gizlenir, izinle bir kez açılı
   const videoId=(await api('entries','POST',{kind:'mini',text:'Tek seferlik video',clientId:'b'.repeat(32),file:video},sender.token)).body.id;
   const videoState=(await api('state','GET',undefined,receiver.token)).body.entries.find(entry=>entry.id===videoId);
   assert.equal(videoState.mini_media_kind,'video');
+  const mediaInbox=await api('notifications','GET',undefined,receiver.token);
+  assert.equal(mediaInbox.body.unread,2);
+  assert.equal(mediaInbox.body.items.filter(item=>item.kind==='mini').length,2);
+  await api('notifications/read-all','POST',{},receiver.token);
+  const readMediaInbox=await api('notifications','GET',undefined,receiver.token);
+  assert.equal(readMediaInbox.body.unread,0);
+  assert.ok(readMediaInbox.body.items.every(item=>item.read));
   assert.equal(videoState.file,null);
   assert.equal(JSON.stringify(videoState).includes(video.data),false);
   assert.equal((await fetch(base+'/api/files/'+videoId,{headers:{Authorization:'Bearer '+receiver.token}})).status,404);

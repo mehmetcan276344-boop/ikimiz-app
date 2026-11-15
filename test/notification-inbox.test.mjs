@@ -35,6 +35,14 @@ test('Bildirim çanı mesajları gizler, diğer etkinlikleri listeler ve okunma 
   const next=await api('notifications','GET',undefined,sender.token);
   assert.equal(next.body.unread,2);
   assert.equal(next.body.items.find(x=>x.id===id).read,true);
+  const allRead=await api('notifications/read-all','POST',{},sender.token);
+  assert.equal(allRead.status,200);
+  assert.equal(allRead.body.marked,2);
+  const afterAll=await api('notifications','GET',undefined,sender.token);
+  assert.equal(afterAll.body.unread,0);
+  assert.ok(afterAll.body.items.every(item=>item.read));
+  assert.equal((await api('notifications/read-all','POST',{},sender.token)).body.marked,0);
+  assert.equal(app.db.prepare('SELECT COUNT(*) AS count FROM activity_notification_reads WHERE event_id=?').get(messageId).count,0);
   assert.equal((await api('notifications/read','POST',{id:messageId},sender.token)).status,404);
  }finally{await app.close();await rm(dir,{recursive:true,force:true});}
 });

@@ -44,5 +44,13 @@ test('Tek görüntülemelik fotoğraf ve video gizlenir, izinle bir kez açılı
   assert.equal(openedVideo.body.file.payload,video.data);
   assert.equal(app.db.prepare('SELECT count(*) n FROM entry_files WHERE entry_id=?').get(videoId).n,0);
   assert.equal((await api('mini-notes/'+videoId+'/open','POST',{},receiver.token)).status,410);
+
+  assert.equal((await api('encryption','POST',{fingerprint:'a'.repeat(64)},sender.token)).status,200);
+  const encryptedImage='ikimiz:v1:'+'A'.repeat(5200000);
+  const encryptedPhoto=await api('entries','POST',{kind:'mini',text:'ikimiz:v1:encrypted-caption',clientId:'c'.repeat(32),image:encryptedImage},sender.token);
+  assert.equal(encryptedPhoto.status,201);
+  const encryptedOpen=await api('mini-notes/'+encryptedPhoto.body.id+'/open','POST',{},receiver.token);
+  assert.equal(encryptedOpen.status,200);
+  assert.equal(encryptedOpen.body.image,encryptedImage);
  }finally{await app.close();await rm(dir,{recursive:true,force:true});}
 });

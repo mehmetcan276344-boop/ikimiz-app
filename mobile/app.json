@@ -35,7 +35,7 @@
       ],
       "allowBackup": false,
       "softwareKeyboardLayoutMode": "resize",
-      "versionCode": 23
+      "versionCode": 25
     },
     "plugins": [
       "expo-secure-store",
@@ -61,7 +61,7 @@
       "./plugins/withAndroidPackage.cjs"
     ],
     "extra": {
-      "serverUrl": "https://ikimiz-production-17d04203.up.railway.app",
+      "serverUrl": "https://ikimiz-production-31ff1f6c.up.railway.app",
       "eas": {
         "projectId": "7b1e68cb-ba22-4d9d-b407-e52ea8212a3f"
       }

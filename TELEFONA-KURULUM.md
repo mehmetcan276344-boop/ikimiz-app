@@ -2,7 +2,7 @@
 
 ## Tarayıcı üzerinden
 
-https://ikimiz-production-17d04203.up.railway.app adresini aç. Ekrandaki “Telefonuma yükle” düğmesi görünüyorsa dokunup tarayıcının kurulum onayını tamamla. Tarayıcın bu düğmeyi sunmuyorsa “Telefona nasıl eklerim?” bölümündeki Android/iPhone adımlarını izle.
+https://ikimiz-production-31ff1f6c.up.railway.app adresini aç. Ekrandaki “Telefonuma yükle” düğmesi görünüyorsa dokunup tarayıcının kurulum onayını tamamla. Tarayıcın bu düğmeyi sunmuyorsa “Telefona nasıl eklerim?” bölümündeki Android/iPhone adımlarını izle.
 
 - Android: Chrome menüsünden “Uygulamayı yükle” veya “Ana ekrana ekle”.
 - iPhone: Safari paylaş menüsünden “Ana Ekrana Ekle”.

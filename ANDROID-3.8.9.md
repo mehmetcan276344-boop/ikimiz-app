@@ -1,6 +1,6 @@
 # Android 3.8.9 / kod22
 
-https://ikimiz-production-17d04203.up.railway.app/downloads/ikimiz-3.8.9.apk
+https://ikimiz-production-31ff1f6c.up.railway.app/downloads/ikimiz-3.8.9.apk
 SHA-256: dbaada1411aaae427c9169af129c226d46f045d11b8fbc0b7fc7ea5067cbae6f
 
 İki telefona da mevcut uygulamanın üzerine yükleyin; uygulamayı silmeyin. Orijinal uygulama simgesi korundu.

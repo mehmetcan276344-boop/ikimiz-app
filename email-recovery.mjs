@@ -11,7 +11,7 @@ export function createRecoveryMailer(env=process.env){
  const port=Number(env.SMTP_PORT||465),transport=nodemailer.createTransport({host:env.SMTP_HOST,port,secure:port===465,requireTLS:true,tls:{rejectUnauthorized:true},connectionTimeout:10000,socketTimeout:10000,...(env.SMTP_USER?{auth:{user:env.SMTP_USER,pass:env.SMTP_PASSWORD}}:{})});
  return data=>transport.sendMail(message(data));
 }
-export function emailRecovery(db,{sendMail=createRecoveryMailer(),publicUrl=process.env.PUBLIC_APP_URL||'https://ikimiz-production-17d04203.up.railway.app',now=Date.now}={}){
+export function emailRecovery(db,{sendMail=createRecoveryMailer(),publicUrl=process.env.PUBLIC_APP_URL||'https://ikimiz-production-31ff1f6c.up.railway.app',now=Date.now}={}){
  const origin=new URL(publicUrl);if(origin.protocol!=='https:'||origin.username||origin.password)throw new Error('PUBLIC_APP_URL must use trusted HTTPS.');
  db.exec('CREATE TABLE IF NOT EXISTS password_reset_tokens(user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,token_hash TEXT UNIQUE NOT NULL,password_version TEXT NOT NULL,expires INTEGER NOT NULL)');
  const q=(s,...a)=>db.prepare(s).get(...a),run=(s,...a)=>db.prepare(s).run(...a),pending=new Set();let stopped=false;

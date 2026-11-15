@@ -28,7 +28,7 @@ E-posta, Android/iOS yerel bildirimleri ve mağaza yayınları ilgili hesap bağ
 
 ## Hemen kullan
 
-**https://ikimiz-production-17d04203.up.railway.app**
+**https://ikimiz-production-31ff1f6c.up.railway.app**
 
 İkiniz bu adresi açıp ayrı hesap oluşturun. İlk kişi çift alanı açar ve davet kodu oluşturur; ikinci kişi kendi hesabıyla bu koda katılır. Ayrıntılı adımlar KULLANIM.md dosyasında. iPhone ve Android tarayıcısından ana ekrana eklenebilir.
 

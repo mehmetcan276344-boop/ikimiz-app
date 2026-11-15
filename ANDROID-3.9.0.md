@@ -1,6 +1,6 @@
 # Android 3.9.0 / kod23
 
-https://ikimiz-production-17d04203.up.railway.app/downloads/ikimiz-3.9.0.apk
+https://ikimiz-production-31ff1f6c.up.railway.app/downloads/ikimiz-3.9.0.apk
 SHA-256: 39d0096543d39c7954401aaa52f2c60c66930d823afd6d5d9db71d2ce709ef3c
 
 İki telefona da mevcut uygulamanın üzerine yükleyin; uygulamayı silmeyin. Uygulama simgesi ve giriş bilgileri korunur.

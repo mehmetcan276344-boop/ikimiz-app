@@ -39,7 +39,7 @@ async function inspectPage(input,{dns,request,deadline,visited,depth=0,referer})
    if(!page.headers.location||redirect===3)fail(400,'Bu bağlantı çok fazla yönlendiriliyor.');
    u=safeUrl(new URL(page.headers.location,u).href);continue;
   }
-  if(![200,206].includes(page.status))fail(400,'Site bu bağlantıyı açmaya izin vermiyor. Doğrudan video bağlantısı dene.');
+  if([401,403,429].includes(page.status))fail(403,'Site otomatik video kaynağına erişimi engelliyor. Film sitesi moduna geçiliyor.');if(![200,206].includes(page.status))fail(400,'Video sayfasına ulaşılamadı. Bağlantıyı kontrol edip tekrar dene.');
   const type=String(page.headers['content-type']||'');
   if(/^(video\/|application\/(?:vnd\.apple\.mpegurl|x-mpegurl|dash\+xml))/i.test(type)){
    return videoSource({type:'url',url:u.href,format:streamFormat(type,u.href),refererOrigin:referer?.origin});
@@ -50,7 +50,7 @@ async function inspectPage(input,{dns,request,deadline,visited,depth=0,referer})
   }
   if(depth<3)for(const embedded of embeddedPageCandidates(page.html,u.href)){
    try{const found=await inspectPage(new URL(embedded),{dns,request,deadline,visited,depth:depth+1,referer:u});if(found)return found;}
-   catch(error){if(Date.now()>=deadline)throw error;}
+   catch(error){if(Date.now()>=deadline||error.status===403)throw error;}
   }
   return null;
  }
@@ -61,8 +61,8 @@ export async function resolveVideoLink(input,{dns=lookup,request=requestPage}={}
  try{return videoSource(input);}catch(error){if(!input?.url)throw error;}
  const initial=safeUrl(input.url),deadline=Date.now()+10000,visited=new Set();
  if(input?.mode==='site')await publicTarget(initial,dns,deadline);
- try{const result=await inspectPage(initial,{dns,request,deadline,visited});if(result)return result;}
- catch(error){if(input?.mode!=='site'||Date.now()>=deadline)throw error;}
- if(input?.mode==='site')return videoSource({...input,type:'site'});
+ let accessBlocked=false;try{const result=await inspectPage(initial,{dns,request,deadline,visited});if(result)return result;}
+ catch(error){if(Date.now()>=deadline)throw error;if(input?.mode==='site'){}else if(error.status===403)accessBlocked=true;else throw error;}
+ if(input?.mode==='site'||accessBlocked)return videoSource({type:'site',url:initial.href});
  fail(400,'Bu sayfada açık bir video bulunamadı. Video bağlantısını doğrudan yapıştır. Giriş, DRM veya özel oynatıcı isteyen siteler desteklenmeyebilir.');
 }

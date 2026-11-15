@@ -18,6 +18,12 @@ test('site fallback does not bypass public URL checks and returns site mode for 
  const page=await resolveVideoLink({url:'https://films.example/title',mode:'site'},{dns,request:async()=>({status:200,headers:{'content-type':'text/html'},html:'<div>Protected player</div>'})});assert.deepEqual(page,{type:'site',url:'https://films.example/title'});
  await assert.rejects(resolveVideoLink({url:'https://films.example/title',mode:'site'},{dns:async()=>[{address:'127.0.0.1',family:4}],request:()=>assert.fail('Private page was fetched')}),e=>e.status===400);
 });
+test('server-side access denial falls back to the public film page instead of a dead-end error',async()=>{
+ const result=await resolveVideoLink({url:'https://films.example/blocked'},{dns,request:async()=>({status:403,headers:{},html:'Access denied'})});
+ assert.deepEqual(result,{type:'site',url:'https://films.example/blocked'});
+ const nested=await resolveVideoLink({url:'https://films.example/watch'},{dns,request:async(u)=>u.hostname==='films.example'?{status:200,headers:{'content-type':'text/html'},html:'<iframe src="https://player.example/embed"></iframe>'}:{status:403,headers:{},html:'Access denied'}});
+ assert.deepEqual(nested,{type:'site',url:'https://films.example/watch'});
+});
 test('movie resolver rejects private addresses, DNS rebinding and private redirects',async()=>{
  for(const ip of['127.0.0.1','10.1.2.3','169.254.169.254','172.16.0.1','192.168.1.1','0.0.0.0','100.64.1.1','::1','::ffff:127.0.0.1','fd00::1','fe80::1','2001:db8::1','2002:7f00:1::'])assert.equal(publicAddress(ip),false,ip);assert.equal(publicAddress('8.8.8.8'),true);assert.equal(publicAddress('2001:4860:4860::8888'),true);
  let requests=0;const request=async()=>{requests++;return{status:302,headers:{location:'https://127.0.0.1/admin'},html:''};};await assert.rejects(resolveVideoLink({url:'https://films.example/film'},{dns,request}),e=>e.status===400);assert.equal(requests,1);
@@ -26,7 +32,7 @@ test('movie resolver rejects private addresses, DNS rebinding and private redire
 });
 test('movie metadata handles relative sources, JSON-LD, unsupported pages and safe direct mode',async()=>{
  assert.equal(mediaCandidates('<!-- <video src="/old.mp4"></video> --><video src="/real.mp4"></video>','https://example.com')[0].url,'https://example.com/real.mp4');assert.equal(mediaCandidates('<meta property="og:video:secure_url" content="https://cdn.example/film.mp4"><script type="application/ld+json">{"@graph":[{"contentUrl":"/film.webm"}]}</script>','https://example.com/movie')[1].url,'https://example.com/film.webm');
- await assert.rejects(resolveVideoLink({url:'https://example.com/locked'},{dns,request:async()=>({status:403,headers:{},html:'login'})}),e=>e.status===400);
+ assert.deepEqual(await resolveVideoLink({url:'https://example.com/locked'},{dns,request:async()=>({status:403,headers:{},html:'login'})}),{type:'site',url:'https://example.com/locked'});
  await assert.rejects(resolveVideoLink({url:'https://example.com/dynamic'},{dns,request:async()=>({status:200,headers:{},html:'<div>Only a protected custom player</div>'})}),/açık bir video bulunamadı/);
  assert.equal((await resolveVideoLink({url:'https://cdn.example/play?id=1',mode:'video',format:'dash'})).format,'dash');
  for(const url of['http://example.com/play','file:///film.mp4','javascript:alert(1)','https://u:p@example.com/play'])await assert.rejects(resolveVideoLink({url,mode:'video'}));

@@ -1,0 +1,1 @@
+## 3.19.13\n- Tek görüntülemelik medya mesaj akışında WhatsApp benzeri baloncuk olarak görünür; açıldıktan sonra sohbette kaybolur.\n- Sohbet geçmişi ve sabit yazma alanı korunur.\n

@@ -8,6 +8,16 @@ test('public movie pages resolve bounded HTML media without fetching video bodie
  for(const ext of['mp4','webm','mkv','mpd','m3u8'])assert.equal((await resolveVideoLink({url:'https://example.com/film.'+ext},{dns:()=>assert.fail('Direct media never invokes server DNS')})).type,'url');
  assert.equal(videoSource({url:'https://example.com/play?token=abc',type:'url',format:'hls'}).format,'hls');assert.equal(videoSource({url:'https://example.com/film.m3u8',format:'auto'}).format,'hls');
 });
+test('movie resolver follows bounded public iframe players and returns the final media with its referrer',async()=>{
+ const calls=[];
+ const result=await resolveVideoLink({url:'https://films.example/watch/1'},{dns,request:async(u,target,_remaining,referer)=>{calls.push({url:u.href,referer:referer?.origin||null});if(u.hostname==='films.example')return{status:200,headers:{'content-type':'text/html'},html:'<iframe src="/embed/1"></iframe>'};if(u.hostname==='player.example')return{status:200,headers:{'content-type':'text/html'},html:'<video><source src="//cdn.example/season/episode?sig=abc" type="application/vnd.apple.mpegurl"></video>'};return{status:200,headers:{'content-type':'application/vnd.apple.mpegurl'},html:''};}});
+ assert.equal(result.type,'url');assert.equal(result.url,'https://cdn.example/season/episode?sig=abc');assert.equal(result.format,'hls');assert.equal(result.refererOrigin,'https://player.example');assert.deepEqual(calls.map(x=>x.url),['https://films.example/watch/1','https://films.example/embed/1']);assert.equal(calls[1].referer,'https://films.example');
+ assert.deepEqual(embeddedPageCandidates('<iframe src="/ok"></iframe><iframe data-src="https://player.example/embed"></iframe>','https://films.example/watch'),['https://films.example/ok','https://player.example/embed']);
+});
+test('site fallback does not bypass public URL checks and returns site mode for player pages',async()=>{
+ const page=await resolveVideoLink({url:'https://films.example/title',mode:'site'},{dns,request:async()=>({status:200,headers:{'content-type':'text/html'},html:'<div>Protected player</div>'})});assert.deepEqual(page,{type:'site',url:'https://films.example/title'});
+ await assert.rejects(resolveVideoLink({url:'https://films.example/title',mode:'site'},{dns:async()=>[{address:'127.0.0.1',family:4}],request:()=>assert.fail('Private page was fetched')}),e=>e.status===400);
+});
 test('movie resolver rejects private addresses, DNS rebinding and private redirects',async()=>{
  for(const ip of['127.0.0.1','10.1.2.3','169.254.169.254','172.16.0.1','192.168.1.1','0.0.0.0','100.64.1.1','::1','::ffff:127.0.0.1','fd00::1','fe80::1','2001:db8::1','2002:7f00:1::'])assert.equal(publicAddress(ip),false,ip);assert.equal(publicAddress('8.8.8.8'),true);assert.equal(publicAddress('2001:4860:4860::8888'),true);
  let requests=0;const request=async()=>{requests++;return{status:302,headers:{location:'https://127.0.0.1/admin'},html:''};};await assert.rejects(resolveVideoLink({url:'https://films.example/film'},{dns,request}),e=>e.status===400);assert.equal(requests,1);

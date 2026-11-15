@@ -3,21 +3,22 @@
 const PREFIX='ikimiz-gift:v1:';
 const MAP_PREFIX='ikimiz-map:v1:';
 const catalog=[
- {id:'flowers',emoji:'💐',name:'Bir demet mutluluk',desc:'Renkli çiçekler ve kocaman bir gülümseme.'},
- {id:'chocolate',emoji:'🍫',name:'Tatlı bir mola',desc:'Birlikte paylaşmalık çikolata.'},
- {id:'coffee',emoji:'☕',name:'Sana kahve ısmarladım',desc:'Kahve, sohbet ve sana ayrılmış zaman.'},
- {id:'star',emoji:'🌟',name:'Bir yıldız senin',desc:'Bugün parlaman için küçük bir yıldız.'},
- {id:'ticket',emoji:'🎟️',name:'Birlikte bir plan',desc:'Bir sonraki buluşmanız için tatlı bir davet.'},
- {id:'song',emoji:'🎵',name:'Bizim şarkımız',desc:'Aklıma seni getiren bir şarkı.'},
- {id:'hug',emoji:'🧸',name:'Sıcacık bir sarılma',desc:'Uzaktan gönderilmiş yumuşak bir sarılma.'},
- {id:'cake',emoji:'🍰',name:'Bir dilim mutluluk',desc:'Küçük bir kutlama, sıradan bir gün için.'}
+ {id:'flowers',emoji:'💐',name:'Bir demet mutluluk',desc:'Renkli çiçekler ve kocaman bir gülümseme.',category:'romantic'},
+ {id:'chocolate',emoji:'🍫',name:'Tatlı bir mola',desc:'Birlikte paylaşmalık çikolata.',category:'treat'},
+ {id:'coffee',emoji:'☕',name:'Sana kahve ısmarladım',desc:'Kahve, sohbet ve sana ayrılmış zaman.',category:'treat'},
+ {id:'star',emoji:'🌟',name:'Bir yıldız senin',desc:'Bugün parlaman için küçük bir yıldız.',category:'romantic'},
+ {id:'ticket',emoji:'🎟️',name:'Birlikte bir plan',desc:'Bir sonraki buluşmanız için tatlı bir davet.',category:'together'},
+ {id:'song',emoji:'🎵',name:'Bizim şarkımız',desc:'Aklıma seni getiren bir şarkı.',category:'romantic'},
+ {id:'hug',emoji:'🧸',name:'Sıcacık bir sarılma',desc:'Uzaktan gönderilmiş yumuşak bir sarılma.',category:'comfort'},
+ {id:'cake',emoji:'🍰',name:'Bir dilim mutluluk',desc:'Küçük bir kutlama, sıradan bir gün için.',category:'treat'}
 ];
+const categories=[{id:'all',name:'Hepsi'},{id:'romantic',name:'Romantik'},{id:'treat',name:'Tatlılar'},{id:'together',name:'Birlikte plan'},{id:'comfort',name:'Sarılma'}];
 const wraps=[
  {id:'rose',name:'Gül kurusu',className:'wrap-rose',ribbon:'🎀'},
  {id:'sunset',name:'Gün batımı',className:'wrap-sunset',ribbon:'✨'},
  {id:'night',name:'Yıldızlı gece',className:'wrap-night',ribbon:'🌙'}
 ];
-let draft={item:'flowers',wrap:'rose',note:''};
+let draft={item:'flowers',wrap:'rose',note:'',category:'all'};
 const dialog=()=>document.getElementById('modal');
 const item=id=>catalog.find(x=>x.id===id)||catalog[0];
 const wrap=id=>wraps.find(x=>x.id===id)||wraps[0];
@@ -45,19 +46,19 @@ function decoratedChat(){
 const baseChat=chat;
 chat=decoratedChat;
 function pickerHtml(){
- const it=item(draft.item),wr=wrap(draft.wrap);
+ const it=item(draft.item),wr=wrap(draft.wrap),visibleCatalog=draft.category==='all'?catalog:catalog.filter(x=>x.category===draft.category);
  return '<div class="gift-modal-head"><span class="gift-modal-mark">🎁</span><div><p class="eyebrow">SANA ÖZEL KÜÇÜK BİR ŞEY</p><h2>Bir sürpriz hazırla</h2><p>Mesajınla birlikte, kalpten kalbe gönder.</p></div><button type="button" class="gift-close" data-gift-close aria-label="Kapat">×</button></div>'+
- '<div class="gift-picker-grid">'+catalog.map(x=>'<button type="button" class="gift-choice '+(x.id===draft.item?'selected':'')+'" data-gift-item="'+x.id+'" aria-pressed="'+String(x.id===draft.item)+'"><span>'+x.emoji+'</span><strong>'+escText(x.name)+'</strong></button>').join('')+'</div>'+
+ '<div class="gift-category-list" role="group" aria-label="Hediye kategorileri">'+categories.map(c=>{const count=c.id==='all'?catalog.length:catalog.filter(x=>x.category===c.id).length;return '<button type="button" class="gift-category '+(draft.category===c.id?'selected':'')+'" data-gift-category="'+c.id+'" aria-pressed="'+String(draft.category===c.id)+'">'+escText(c.name)+'<small>'+count+'</small></button>';}).join('')+'</div><div class="gift-picker-grid">'+visibleCatalog.map(x=>'<button type="button" class="gift-choice '+(x.id===draft.item?'selected':'')+'" data-gift-item="'+x.id+'" aria-pressed="'+String(x.id===draft.item)+'"><span>'+x.emoji+'</span><strong>'+escText(x.name)+'</strong></button>').join('')+'</div>'+
  '<div class="gift-wrap-picker"><span class="gift-label">PAKETİN GÖRÜNÜMÜ</span><div>'+wraps.map(x=>'<button type="button" class="gift-wrap-choice '+(x.id===draft.wrap?'selected':'')+'" data-gift-wrap="'+x.id+'" aria-pressed="'+String(x.id===draft.wrap)+'"><i class="'+x.className+'"></i>'+escText(x.name)+'</button>').join('')+'</div></div>'+
  '<label class="gift-note-label">İçine küçük bir not bırak <span>isteğe bağlı</span><textarea data-gift-note maxlength="240" rows="3" placeholder="Bugün aklıma sen geldin…">'+escText(draft.note)+'</textarea></label>'+
  '<div class="gift-preview '+wr.className+'"><span>'+it.emoji+'</span><div><small>ÖNİZLEME</small><strong>'+escText(it.name)+'</strong><p>'+escText(draft.note||it.desc)+'</p></div></div>'+
  '<div class="gift-modal-actions"><button class="secondary" type="button" data-gift-random>Rastgele sürpriz ✨</button><button class="primary" type="button" data-gift-send>Paketi gönder ↗</button></div><p class="gift-safe-note">Sürpriziniz sohbetinizde özel bir mesaj olarak saklanır.</p>';
 }
 function openPicker(options={}){
- draft={item:options.item||'flowers',wrap:options.wrap||'rose',note:options.note||''};
+ draft={item:options.item||'flowers',wrap:options.wrap||'rose',note:options.note||'',category:'all'};
  const d=dialog();if(!d)return;d.className='gift-modal';d.innerHTML=pickerHtml();if(!d.open)d.showModal();
 }
-function updatePicker(){const d=dialog();if(!d)return;const focused=d.querySelector('[data-gift-note]'),start=focused?.selectionStart,end=focused?.selectionEnd;d.innerHTML=pickerHtml();const note=d.querySelector('[data-gift-note]');if(note){note.focus({preventScroll:true});if(typeof start==='number')note.setSelectionRange(start,end);}}
+function updatePicker(){const d=dialog();if(!d)return;const active=d.querySelector(':focus'),noteActive=active?.hasAttribute('data-gift-note'),start=noteActive?active.selectionStart:null,end=noteActive?active.selectionEnd:null,attrs=['data-gift-category','data-gift-item','data-gift-wrap','data-gift-random','data-gift-send'],attr=attrs.find(name=>active?.hasAttribute(name)),value=attr?active.getAttribute(attr):null;d.innerHTML=pickerHtml();const target=noteActive?d.querySelector('[data-gift-note]'):attr?[...d.querySelectorAll('['+attr+']')].find(node=>node.getAttribute(attr)===value):null;if(target){target.focus({preventScroll:true});if(noteActive&&typeof start==='number')target.setSelectionRange(start,end);}}
 const KISS_SPOTS=[{name:'Yanağından',label:'Yanak',emoji:'😊'},{name:'Dudaklarından',label:'Dudak',emoji:'💋'},{name:'Boynundan',label:'Boyun',emoji:'🌹'},{name:'Alnından',label:'Alın',emoji:'🥰'},{name:'Elinden',label:'El',emoji:'🤍'},{name:'Burnundan',label:'Burun',emoji:'🐻'}];let kissTimer=null,kissRotation=0;
 function openKissWheel(){const d=dialog();if(!d)return;d.className='kiss-modal';d.innerHTML='<div class="gift-modal-head"><span class="gift-modal-mark">💋</span><div><p class="eyebrow">EĞLENCELİ BİR SÜRPRİZ</p><h2>Öpücük çarkı</h2><p>Çarkın önerisi sadece bir oyun; sonucu paylaşmak sana kalmış.</p></div><button class="gift-close" data-gift-close aria-label="Kapat">×</button></div><div class="kiss-wheel-stage"><span class="kiss-pointer" aria-hidden="true">▼</span><div class="kiss-wheel" data-kiss-wheel>'+KISS_SPOTS.map((x,i)=>'<span class="kiss-wheel-label kiss-label-'+i+'">'+x.emoji+'<small>'+x.label+'</small></span>').join('')+'<span class="kiss-wheel-center">♡</span></div></div><p class="kiss-result" data-kiss-result aria-live="polite">Hazır mısın? Çarkı çevir.</p><div class="gift-modal-actions"><button class="secondary" data-kiss-spin>Çarkı çevir</button><button class="primary" data-kiss-send disabled>Sonucu mesajla gönder</button></div><p class="gift-safe-note">İstediğin zaman başka sonuç seçebilir veya hiçbir şey göndermeyebilirsin.</p>';if(!d.open)d.showModal();}
 function openMapPicker(){const d=dialog();if(!d)return;d.className='map-modal';d.innerHTML='<div class="gift-modal-head"><span class="gift-modal-mark">📍</span><div><p class="eyebrow">BİRLİKTE GİDİLECEK BİR YER</p><h2>Harita bağlantısı paylaş</h2><p>Google, Apple, Yandex veya OpenStreetMap bağlantısını yapıştır.</p></div><button class="gift-close" data-gift-close aria-label="Kapat">×</button></div><label class="gift-note-label">Yer adı <span>isteğe bağlı</span><input data-map-title maxlength="80" placeholder="Örn. gün batımını izlediğimiz yer"></label><label class="gift-note-label map-url-label">Harita bağlantısı<input data-map-url type="url" inputmode="url" placeholder="https://maps.app.goo.gl/…" autocomplete="url" required></label><p class="error" data-map-error role="alert"></p><div class="gift-modal-actions"><button class="primary" data-map-send>Bağlantıyı sohbete gönder ↗</button></div><p class="gift-safe-note">Koordinat girmek gerekmez; yalnızca paylaştığın harita bağlantısı gider.</p>';if(!d.open)d.showModal();}
@@ -73,11 +74,12 @@ document.addEventListener('click',e=>{
  const reply=e.target.closest('[data-gift-reply]');if(reply){openPicker({item:'hug',wrap:'sunset',note:'Bu sürprize bir sarılma da benden ♡'});return;}
  const close=e.target.closest('[data-gift-close]');if(close){dialog().close();return;}
  const choose=e.target.closest('[data-gift-item]');if(choose){draft.item=choose.dataset.giftItem;updatePicker();return;}
+ const chooseCategory=e.target.closest('[data-gift-category]');if(chooseCategory){draft.category=chooseCategory.dataset.giftCategory;const next=draft.category==='all'?catalog:catalog.filter(x=>x.category===draft.category);if(!next.some(x=>x.id===draft.item))draft.item=next[0]?.id||catalog[0].id;updatePicker();return;}
  const chooseWrap=e.target.closest('[data-gift-wrap]');if(chooseWrap){draft.wrap=chooseWrap.dataset.giftWrap;updatePicker();return;}
  const random=e.target.closest('[data-gift-random]');if(random){draft.item=catalog[Math.floor(Math.random()*catalog.length)].id;draft.wrap=wraps[Math.floor(Math.random()*wraps.length)].id;updatePicker();dialog().classList.add('gift-shuffle');setTimeout(()=>dialog()?.classList.remove('gift-shuffle'),650);return;}
  const send=e.target.closest('[data-gift-send]');if(send){const payload={kind:'gift',version:1,id:crypto.randomUUID(),item:draft.item,wrap:draft.wrap,note:(dialog().querySelector('[data-gift-note]')?.value||'').trim().slice(0,240),sentAt:Date.now()};sendChatText(encode(payload));return;}
  if(e.target===dialog())dialog().close();
 });
 document.addEventListener('input',e=>{if(e.target.matches('[data-gift-note]'))draft.note=e.target.value.slice(0,240);});
-window.IkimizGifts={decode,encode,catalog,wraps,openPicker,openKissWheel,openMapPicker,validMapUrl};
+window.IkimizGifts={decode,encode,catalog,categories,wraps,openPicker,openKissWheel,openMapPicker,validMapUrl};
 })();

@@ -39,3 +39,10 @@ test('gift shortcuts also render with the legacy status note', () => {
   assert.ok(html.includes('data-gift-picker'));
   assert.ok(html.includes('Hediye gönder'));
 });
+
+test('gift picker includes browsable romantic, treats, together and comfort categories',()=>{
+ assert.ok(source.includes('const categories=[{id:\'all\',name:\'Hepsi\'}'));
+ for(const id of ['romantic','treat','together','comfort'])assert.ok(source.includes("category:'"+id+"'"));
+ assert.ok(source.includes('data-gift-category='));
+ assert.ok(source.includes('aria-label="Hediye kategorileri"'));
+});

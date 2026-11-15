@@ -1,0 +1,8 @@
+.gift-category-list{display:flex;gap:7px;overflow-x:auto;padding:3px 1px 11px;margin:3px 0 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gift-category-list::-webkit-scrollbar{display:none}
+.gift-category{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:7px 11px;border:1px solid #f0e1e1;border-radius:999px;background:#fff;color:#806d75;font:inherit;font-size:11px;white-space:nowrap;cursor:pointer;transition:transform .16s,border-color .16s,background .16s,color .16s}
+.gift-category small{display:grid;place-items:center;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#f8eff1;color:#9a7481;font-size:9px}
+.gift-category.selected{border-color:#ca8197;background:linear-gradient(135deg,#d9859a,#bb5f7c);color:#fff;box-shadow:0 5px 13px #a9516a25}
+.gift-category.selected small{background:#ffffff30;color:#fff}
+.gift-category:active{transform:scale(.97)}
+@media(prefers-reduced-motion:reduce){.gift-category{transition:none}}

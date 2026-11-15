@@ -1,11 +1,11 @@
 ## Oyun alanı
 
-Alt menüdeki **Oyunlar** bölümünde artık 12 ortak oyun var. Biriniz başlatır, diğeri aynı ortak alandan katılır.
+Alt menüdeki **Oyunlar** bölümünde artık 13 ortak oyun var. Biriniz başlatır, diğeri aynı ortak alandan katılır.
 
 - **Beni ne kadar tanıyorsun?** ve **Hangisini seçerdin?**: gizli seçimler, karşılıklı tahminler ve puanlar.
 - **Emoji bilmecesi**: emojilerden sahneyi çözün; ikinizin tahmini kilitlenince cevap ve puan açılır. Doğru cevap, diğer oyuncunun cevabı gelene kadar sunucuda saklı kalır.
 - **Kelime zinciri**: sırayla bir önceki kelimenin son harfiyle başlayan, tekrarlanmamış Türkçe bir kelime ekleyin.
-- **Dört Sıra**, **Hafıza Düellosu**, **Refleks Yarışı**, **Çiz ve Tahmin Et**, **Birlikte hikâye yaz**, **Çift görevleri**, **Doğruluk mu, cesaret mi?** ve **Sen sor, ben anlat**.
+- **Dört Sıra**, **Hafıza Düellosu**, **Refleks Yarışı** ve **Kalp Ritmi**. Kalp Ritmi beş kısa turda iki oyuncunun dokunuşlarını aynı sunucu vuruşuna göre puanlar; kalp ritim anında canlanır ve sonraki tur ikisi de hazır olduğunda başlar. **Çiz ve Tahmin Et**, **Birlikte hikâye yaz**, **Çift görevleri**, **Doğruluk mu, cesaret mi?** ve **Sen sor, ben anlat**.
 
 Oyun ekranları telefona uyumlu; yeni bilmeceler, kelime kartları ve sonuçlar kısa animasyonlarla gösterilir. Hareket azaltma tercihi animasyonlarda dikkate alınır. Her oyuncu oturumu kapatabilir; geçmek istediğiniz soruları veya görevleri atlayabilirsiniz.
 

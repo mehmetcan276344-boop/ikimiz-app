@@ -1,0 +1,1 @@
+## 3.19.11\n- Anı/not listeleri artık kademeli yükleniyor; arama her tuşta tüm ekranı yeniden oluşturmuyor.\n- Mini notlar ana ekranda küçük gruplar halinde açılıyor.\n

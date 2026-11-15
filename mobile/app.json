@@ -2,7 +2,7 @@
   "expo": {
     "name": "İkimiz",
     "slug": "ikimiz",
-    "version": "3.9.0",
+    "version": "3.10.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -35,7 +35,7 @@
       ],
       "allowBackup": false,
       "softwareKeyboardLayoutMode": "resize",
-      "versionCode": 25
+      "versionCode": 26
     },
     "plugins": [
       "expo-secure-store",

@@ -1,0 +1,29 @@
+{
+  "serviceVersion": "3.15.0",
+  "androidVersion": "3.8.9",
+  "androidCode": 22,
+  "nativeChanged": false,
+  "unitTests": {
+    "passed": 50,
+    "failed": 0
+  },
+  "ui": [
+    "organized.cjs: six destinations 320/390, Home no old hubs, profile groups, attachments, mini/letters/daily",
+    "keyboard.cjs: date picker and chat focus regression",
+    "watch-buffer.cjs: no repeated seek, buffering resume, intentional pause",
+    "together.cjs: real simultaneous video/audio/chat, private native media and shared life through destination-owned controls",
+    "native-session.cjs: secure restore and logout through profile category"
+  ],
+  "deployment": {
+    "id": "69f1432d-268c-4801-b213-1f0b7c019e79",
+    "status": "SUCCESS",
+    "live": {
+      "service": "3.15.0",
+      "android": "3.8.9",
+      "code": 22,
+      "assetsMatch": true,
+      "apkUnchanged": true
+    }
+  },
+  "physicalDeviceObserved": false
+}

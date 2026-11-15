@@ -1,0 +1,39 @@
+{
+  "serviceVersion": "3.16.0",
+  "android": {
+    "version": "3.9.0",
+    "versionCode": 23,
+    "sha256": "39d0096543d39c7954401aaa52f2c60c66930d823afd6d5d9db71d2ce709ef3c",
+    "bytes": 66410093,
+    "signer": "118f62b39e5da1c4e834e7e23e81887b599e4307ca8d4afc28963b9dfbd4ca58",
+    "firebase": true
+  },
+  "unitTests": {
+    "passed": 53,
+    "failed": 0
+  },
+  "ui": [
+    "real two-mobile synchronized video/audio/chat with actual fullscreen and back-to-room",
+    "private native media/comments and shared life",
+    "organized six-screen regression 320/390"
+  ],
+  "physicalDeviceObserved": false,
+  "deployment": {
+    "id": "e76724d1-d868-478d-8e9e-99e86cb23f8e",
+    "status": "SUCCESS",
+    "live": {
+      "service": "3.16.0",
+      "android": "3.9.0",
+      "code": 23,
+      "sha256": "39d0096543d39c7954401aaa52f2c60c66930d823afd6d5d9db71d2ce709ef3c",
+      "bytes": 66410093,
+      "watchControls": true,
+      "liveComments": true,
+      "sharedLife": true,
+      "logo": true,
+      "publicMoviePage": true,
+      "movieBytesVerified": true
+    }
+  },
+  "syntheticAccountsRemoved": true
+}

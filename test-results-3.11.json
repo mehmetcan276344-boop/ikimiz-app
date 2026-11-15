@@ -1,0 +1,66 @@
+{
+  "service": "3.11.0",
+  "android": {
+    "version": "3.8.2",
+    "versionCode": 14,
+    "sha256": "c2f040cfb7f904272b4b07bd0a4a4c3eaf0aeb32f6d5cc2c5f3e2cf99f543bb4",
+    "bytes": 61497988,
+    "signer": "118f62b39e5da1c4e834e7e23e81887b599e4307ca8d4afc28963b9dfbd4ca58",
+    "firebase": true
+  },
+  "backend": {
+    "passed": 37,
+    "failed": 0,
+    "details": "35 baseline, added diagonal/edge board test and voice-session replacement race; affected voice suites repeated"
+  },
+  "ui": {
+    "passed": 24,
+    "failed": 0,
+    "files": [
+      "join-entry.cjs",
+      "invite.cjs",
+      "install.cjs",
+      "sync.mjs",
+      "private.mjs",
+      "modern.mjs",
+      "relationships.cjs",
+      "design.cjs",
+      "keyboard.cjs",
+      "stats.cjs",
+      "chat-return.cjs",
+      "mini.cjs",
+      "avatar.cjs",
+      "notification-sounds.cjs",
+      "comments.cjs",
+      "mobile-regression.cjs",
+      "games.cjs",
+      "daily.cjs",
+      "voice.cjs",
+      "social-games.cjs",
+      "experience.cjs",
+      "native-session.cjs",
+      "arcade.cjs",
+      "voice-recovery.cjs"
+    ]
+  },
+  "permissions": {
+    "compiledFirstLaunch": true,
+    "explicitRequests": true,
+    "canSkip": true,
+    "originalAppIconsExact": 21
+  },
+  "physicalSamsungPushDeliveryObserved": false,
+  "physicalSamsungAudioObserved": false,
+  "live": {
+    "passed": true,
+    "deployment": "a3772e78-f0e4-4714-9406-2671dafa2705",
+    "service": "3.11.0",
+    "androidMetadata": "3.8.2",
+    "arcadeGames": true,
+    "customQuestions": true,
+    "likes": true,
+    "secureSession": true,
+    "tlsAudioRelay": true,
+    "syntheticDataRemoved": true
+  }
+}

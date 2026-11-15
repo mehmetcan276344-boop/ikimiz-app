@@ -1,0 +1,25 @@
+{
+  "serviceVersion": "3.15.1",
+  "androidVersion": "3.8.9",
+  "nativeChanged": false,
+  "change": "visual-only Home couple panel",
+  "ui": {
+    "organized": true,
+    "widths": [
+      320,
+      390
+    ],
+    "visualReview": true
+  },
+  "deployment": {
+    "id": "5bc5e9e9-366e-42ff-b525-5785e8e58f5f",
+    "status": "SUCCESS",
+    "liveAssets": {
+      "service": "3.15.1",
+      "android": "3.8.9",
+      "code": 22,
+      "assetsMatch": true,
+      "apkUnchanged": true
+    }
+  }
+}

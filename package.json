@@ -1,0 +1,44 @@
+{
+  "name": "ikimiz",
+  "version": "3.19.4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:ui": "node test/ui/sync.mjs",
+    "test:private": "node test/ui/private.mjs",
+    "test:modern": "node test/ui/modern.mjs",
+    "backup": "node --env-file-if-exists=.env scripts/backup.mjs",
+    "test:invite": "node test/ui/invite.cjs",
+    "test:install": "node test/ui/install.cjs",
+    "test:join-entry": "node test/ui/join-entry.cjs",
+    "test:relationships": "node test/ui/relationships.cjs",
+    "test:design": "node test/ui/design.cjs",
+    "test:keyboard": "node test/ui/keyboard.cjs",
+    "test:chat-return": "node test/ui/chat-return.cjs",
+    "test:stats": "node test/ui/stats.cjs",
+    "test:mini": "node test/ui/mini.cjs",
+    "test:avatar": "node test/ui/avatar.cjs",
+    "test:comments": "node test/ui/comments.cjs",
+    "test:notification-sounds": "node test/ui/notification-sounds.cjs",
+    "test:games": "node test/ui/games.cjs",
+    "test:mobile-regression": "node test/ui/mobile-regression.cjs",
+    "test:voice": "node test/ui/voice.cjs",
+    "test:daily": "node test/ui/daily.cjs",
+    "test:mobile-experience": "node test/ui/experience.cjs",
+    "test:native-session": "node test/ui/native-session.cjs"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "devDependencies": {
+    "railway": "^3.16.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1168.0",
+    "nodemailer": "^10.5.0",
+    "web-push": "^4.0.0",
+    "ws": "^8.23.0"
+  }
+}

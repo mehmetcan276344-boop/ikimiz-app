@@ -1,0 +1,18 @@
+{
+  "backend": {
+    "passed": 20,
+    "failed": 0
+  },
+  "ui": [
+    "games: five synchronized games, burst coalescing, game invitation deep link",
+    "comments: focus, offline, encryption, comment notification deep link, stale-couple rejection",
+    "notification sounds: controls and silent automatic registration",
+    "mobile regression: no duplicated icons, photo stability, keyboard layout"
+  ],
+  "physicalPhoneDeliveryObserved": false,
+  "native": [
+    "Consumed notification dismissed",
+    "Last notification response cleared",
+    "Duplicate response ignored"
+  ]
+}

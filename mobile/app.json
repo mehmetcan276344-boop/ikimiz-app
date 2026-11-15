@@ -1,0 +1,72 @@
+{
+  "expo": {
+    "name": "İkimiz",
+    "slug": "ikimiz",
+    "version": "3.9.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ikimiz.couple",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Anılarına seçtiğin fotoğrafları eklemek için fotoğraf erişimi kullanılır.",
+        "NSCameraUsageDescription": "Anı defterine fotoğraf çekmek için kamera kullanılır.",
+        "NSMicrophoneUsageDescription": "Sesli odada sevgilinle konuşmak için mikrofon izni kullanılır."
+      }
+    },
+    "android": {
+      "package": "com.ikimiz.couple",
+      "permissions": [
+        "INTERNET",
+        "POST_NOTIFICATIONS",
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS"
+      ],
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#784374"
+      },
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ],
+      "allowBackup": false,
+      "softwareKeyboardLayoutMode": "resize",
+      "versionCode": 23
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "defaultChannel": "ikimiz-messages-v1",
+          "sounds": [
+            "./assets/sounds/ikimiz_mesaj.wav",
+            "./assets/sounds/ikimiz_hatirlatma.wav"
+          ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "imageWidth": 200,
+          "backgroundColor": "#784374",
+          "resizeMode": "contain"
+        }
+      ],
+      "./plugins/withAndroidPackage.cjs"
+    ],
+    "extra": {
+      "serverUrl": "https://ikimiz-production-17d04203.up.railway.app",
+      "eas": {
+        "projectId": "7b1e68cb-ba22-4d9d-b407-e52ea8212a3f"
+      }
+    },
+    "icon": "./assets/icon.png",
+    "owner": "can2763"
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "serviceVersion": "3.13.1",
+  "android": {
+    "version": "3.8.8",
+    "versionCode": 21,
+    "sha256": "c6fabf36d4b86ca34515d2e3584fabb39226de72cab6e8cbeefaec0b0a474ea4",
+    "bytes": 66406006,
+    "signer": "118f62b39e5da1c4e834e7e23e81887b599e4307ca8d4afc28963b9dfbd4ca58",
+    "firebase": true
+  },
+  "unitTests": {
+    "passed": 50,
+    "failed": 0
+  },
+  "uiPackages": [
+    {
+      "file": "join-entry.cjs",
+      "passed": true
+    },
+    {
+      "file": "invite.cjs",
+      "passed": true
+    },
+    {
+      "file": "install.cjs",
+      "passed": true
+    },
+    {
+      "file": "sync.mjs",
+      "passed": true
+    },
+    {
+      "file": "private.mjs",
+      "passed": true
+    },
+    {
+      "file": "modern.mjs",
+      "passed": true
+    },
+    {
+      "file": "relationships.cjs",
+      "passed": true
+    },
+    {
+      "file": "design.cjs",
+      "passed": true
+    },
+    {
+      "file": "keyboard.cjs",
+      "passed": true
+    },
+    {
+      "file": "stats.cjs",
+      "passed": true
+    },
+    {
+      "file": "chat-return.cjs",
+      "passed": true
+    },
+    {
+      "file": "mini.cjs",
+      "passed": true
+    },
+    {
+      "file": "avatar.cjs",
+      "passed": true
+    },
+    {
+      "file": "notification-sounds.cjs",
+      "passed": true
+    },
+    {
+      "file": "comments.cjs",
+      "passed": true
+    },
+    {
+      "file": "mobile-regression.cjs",
+      "passed": true
+    },
+    {
+      "file": "games.cjs",
+      "passed": true
+    },
+    {
+      "file": "daily.cjs",
+      "passed": true
+    },
+    {
+      "file": "voice.cjs",
+      "passed": true
+    },
+    {
+      "file": "experience.cjs",
+      "passed": true
+    },
+    {
+      "file": "social-games.cjs",
+      "passed": true
+    },
+    {
+      "file": "native-session.cjs",
+      "passed": true
+    },
+    {
+      "file": "memory-layout.cjs",
+      "passed": true
+    },
+    {
+      "file": "arcade.cjs",
+      "passed": true
+    },
+    {
+      "file": "voice-recovery.cjs",
+      "passed": true
+    },
+    {
+      "file": "drawing.cjs",
+      "passed": true
+    },
+    {
+      "file": "shared-life.cjs",
+      "passed": true
+    },
+    {
+      "file": "file-attachments.cjs",
+      "passed": true
+    },
+    {
+      "file": "private-shared.mjs",
+      "passed": true
+    },
+    {
+      "file": "together.cjs",
+      "passed": true
+    },
+    {
+      "file": "layout313.cjs",
+      "passed": true
+    }
+  ],
+  "targetedFollowups": [
+    "together: real synchronized video/audio/chat, encryption, back handling and lost-response retry",
+    "experience/shared-life: mobile layout and APK bridge",
+    "keyboard/chat-return/native-session: input stability, back, scroll and secure login",
+    "push-retry: transient failure, logout race and disabled preference"
+  ],
+  "deployment": {
+    "id": "3108b129-0b17-49fb-9f95-6d1428a726cb",
+    "status": "SUCCESS",
+    "live": {
+      "service": "3.13.1",
+      "android": "3.8.8",
+      "code": 21,
+      "sha256": "c6fabf36d4b86ca34515d2e3584fabb39226de72cab6e8cbeefaec0b0a474ea4",
+      "bytes": 66406006,
+      "watchControls": true,
+      "liveComments": true,
+      "sharedLife": true,
+      "logo": true
+    }
+  },
+  "physicalDeviceObserved": false,
+  "syntheticAccountsRemoved": true
+}

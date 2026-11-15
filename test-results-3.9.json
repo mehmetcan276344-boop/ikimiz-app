@@ -1,0 +1,33 @@
+{
+  "backend": {
+    "passed": 29,
+    "failed": 0
+  },
+  "uiGeneral": {
+    "passed": 19,
+    "failed": 0
+  },
+  "extraMobile": [
+    "Secure session bridge and fresh-store restore",
+    "Personalized 320/360/390 mobile home and six-item nav",
+    "Long press and copy",
+    "Private notification diagnostics and selected-device remote test",
+    "Encrypted relayed audio and direct WebRTC audio"
+  ],
+  "live": {
+    "release": "3.9.1",
+    "sharedDaily": true,
+    "authenticatedAudioRelay": true,
+    "sessionRestore": true,
+    "syntheticDataCleaned": true,
+    "remoteTestAuthorization": true
+  },
+  "android": {
+    "version": "3.7.0",
+    "versionCode": 11,
+    "signerVerified": true,
+    "microphonePermission": true,
+    "compiledBridgesVerified": true
+  },
+  "physicalSamsungPushDeliveryObserved": false
+}

@@ -1,0 +1,1 @@
+export function watchTarget(room,clock=Date.now(),offset=0){return Math.max(0,Math.min(86400,Number(room.position||0)+(room.playing?Math.max(0,clock+offset-Math.max(room.serverNow,room.anchor))/1000:0)));}

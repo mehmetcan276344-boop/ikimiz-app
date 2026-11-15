@@ -1,0 +1,55 @@
+{
+  "backend": {
+    "passed": 31,
+    "failed": 0
+  },
+  "ui": {
+    "passed": 22,
+    "failed": 0,
+    "files": [
+      "join-entry.cjs",
+      "invite.cjs",
+      "install.cjs",
+      "sync.mjs",
+      "modern.mjs",
+      "relationships.cjs",
+      "design.cjs",
+      "keyboard.cjs",
+      "chat-return.cjs",
+      "stats.cjs",
+      "mini.cjs",
+      "avatar.cjs",
+      "comments.cjs",
+      "notification-sounds.cjs",
+      "private.mjs",
+      "mobile-regression.cjs",
+      "games.cjs",
+      "daily.cjs",
+      "voice.cjs",
+      "experience.cjs",
+      "social-games.cjs",
+      "native-session.cjs"
+    ]
+  },
+  "android": {
+    "version": "3.8.1",
+    "versionCode": 13,
+    "sha256": "ee0eb91b7e6947f0e3bc343053a81b7083f3d82e83f621b755d58da92fe7596e",
+    "bytes": 61489888,
+    "signer": "118f62b39e5da1c4e834e7e23e81887b599e4307ca8d4afc28963b9dfbd4ca58",
+    "firebase": true,
+    "sameSigner": true,
+    "originalLauncherAndSplashImagesExact": 21,
+    "gcLogoScope": "internal header and chat only"
+  },
+  "physicalPhonePushDeliveryObserved": false,
+  "live": {
+    "service": "3.10.0",
+    "customQuestions": true,
+    "likes": true,
+    "dailyAnswers": true,
+    "secureSessionRestore": true,
+    "encryptedAudioRelay": true,
+    "syntheticAccountsRemoved": true
+  }
+}

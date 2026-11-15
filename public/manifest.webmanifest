@@ -1,0 +1,33 @@
+{
+  "name": "İkimiz • Bizim küçük dünyamız",
+  "short_name": "İkimiz",
+  "lang": "tr",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff7f2",
+  "theme_color": "#b44e6d",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "/",
+  "scope": "/",
+  "description": "İkinize özel mesajlar, anılar ve birlikte kurduğunuz hayaller.",
+  "prefer_related_applications": false
+}

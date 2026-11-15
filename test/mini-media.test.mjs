@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,rm} from 'node:fs/promises';
+import {mkdtemp,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {createApp} from '../server.mjs';
@@ -65,4 +65,10 @@ test('Tek görüntülemelik fotoğraf ve video gizlenir, izinle bir kez açılı
   assert.equal(encryptedOpen.status,200);
   assert.equal(encryptedOpen.body.image,encryptedImage);
  }finally{await app.close();await rm(dir,{recursive:true,force:true});}
+});
+
+test('Tek seferlik medya istemcisi şifreli alanlarda açıklama ve fotoğrafı mini bağlamıyla şifreler',async()=>{
+ const client=await readFile(new URL('../public/once-media.js',import.meta.url),'utf8');
+ assert.match(client,/C\.seal\(text,key,C\.context\(state\.couple\.id,'mini',item\.id,'text'\)\)/);
+ assert.match(client,/C\.seal\(image,key,C\.context\(state\.couple\.id,'mini',item\.id,'image'\)\)/);
 });

@@ -18,15 +18,51 @@ export function mediaCandidates(html,base){html=html.replace(/<!--[\s\S]*?-->/g,
 }
 async function publicTarget(u,dns,deadline){const host=u.hostname.replace(/^\[|\]$/g,'');if(host==='localhost'||host.endsWith('.localhost')||host.endsWith('.local')||host.endsWith('.internal'))fail(400,'Bu bağlantı herkese açık değil.');let timer;const list=await Promise.race([isIP(host)?[{address:host,family:isIP(host)}]:dns(host,{all:true,verbatim:true}),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(new Error('Bağlantı yanıt vermedi.'),{status:504})),Math.max(1,Math.min(2500,deadline-Date.now())));})]).finally(()=>clearTimeout(timer));if(!list.length||list.some(v=>!publicAddress(v.address)))fail(400,'Bu bağlantı herkese açık değil.');return list.find(v=>v.family===4)||list[0];}
 function requestPage(u,target,remaining,referer){return new Promise((resolve,reject)=>{let ended=false;const done=(error,value)=>{if(ended)return;ended=true;clearTimeout(timer);error?reject(error):resolve(value);};const req=https.request(u,{method:'GET',agent:false,lookup:(_host,options,cb)=>options?.all?cb(null,[target]):cb(null,target.address,target.family),headers:{Accept:'text/html,video/*,application/vnd.apple.mpegurl,application/dash+xml;q=0.9,*/*;q=0.5','Accept-Encoding':'identity',Range:'bytes=0-262143','User-Agent':'Ikimiz-Link-Preview/1.0',...(referer?{Referer:referer.origin+'/'}:{})}},res=>{const status=res.statusCode,headers=res.headers,type=String(headers['content-type']||'');if(status>=300&&status<400||/^(video\/|application\/(?:vnd\.apple\.mpegurl|x-mpegurl|dash\+xml))/i.test(type)){done(null,{status,headers,html:''});res.destroy();return;}let size=0,chunks=[];res.on('data',chunk=>{size+=chunk.length;if(size>262144){res.destroy();done(null,{status,headers,html:Buffer.concat(chunks).toString('utf8')});return;}chunks.push(chunk);if(chunks.length===1){const detected=detectedMediaType(chunk);if(detected){done(null,{status,headers:{...headers,'content-type':detected},html:''});res.destroy();}}});res.on('end',()=>done(null,{status,headers,html:Buffer.concat(chunks).toString('utf8')}));res.on('error',()=>done(Object.assign(new Error('Video sayfasına ulaşılamadı.'),{status:502})));});const timer=setTimeout(()=>{req.destroy();done(Object.assign(new Error('Video bağlantısı yanıt vermedi. Başka bir bağlantı dene.'),{status:504}));},Math.max(1,Math.min(5000,remaining)));req.on('error',()=>done(Object.assign(new Error('Video sayfasına ulaşılamadı.'),{status:502})));req.end();});}
+
+export function embeddedPageCandidates(html,base){
+ html=String(html||'').replace(/<!--[\s\S]*?-->/g,'');const out=[];
+ for(const match of html.matchAll(/<iframe\b([^>]{0,8000})>/gi)){
+  const attrs=match[1],raw=attrs.match(/\b(?:src|data-src)\s*=\s*(["'])(.*?)\1/i)?.[2];
+  if(!raw||/^about:blank$/i.test(raw))continue;
+  try{const u=safeUrl(new URL(decode(raw),base).href);if(/\.(?:js|css|png|jpe?g|gif|svg|woff2?|pdf)$/i.test(u.pathname))continue;out.push(u.href);}catch{}
+ }
+ return [...new Set(out)].slice(0,6);
+}
+const streamFormat=(type,url)=>/mpegurl/i.test(type)||/\.m3u8(?:$|\?)/i.test(url)?'hls':/dash\+xml/i.test(type)||/\.mpd(?:$|\?)/i.test(url)?'dash':/video\/mp4/i.test(type)||/\.mp4(?:$|\?)/i.test(url)?'progressive':'auto';
+async function inspectPage(input,{dns,request,deadline,visited,depth=0,referer}){
+ let u=input;
+ for(let redirect=0;redirect<4;redirect++){
+  if(Date.now()>=deadline)fail(504,'Video bağlantısı yanıt vermedi.');
+  if(visited.has(u.href))return null;visited.add(u.href);
+  const target=await publicTarget(u,dns,deadline),page=await request(u,target,deadline-Date.now(),referer);
+  if(page.status>=300&&page.status<400){
+   if(!page.headers.location||redirect===3)fail(400,'Bu bağlantı çok fazla yönlendiriliyor.');
+   u=safeUrl(new URL(page.headers.location,u).href);continue;
+  }
+  if(![200,206].includes(page.status))fail(400,'Site bu bağlantıyı açmaya izin vermiyor. Doğrudan video bağlantısı dene.');
+  const type=String(page.headers['content-type']||'');
+  if(/^(video\/|application\/(?:vnd\.apple\.mpegurl|x-mpegurl|dash\+xml))/i.test(type)){
+   return videoSource({type:'url',url:u.href,format:streamFormat(type,u.href),refererOrigin:referer?.origin});
+  }
+  for(const candidate of mediaCandidates(page.html,u.href)){
+   try{await publicTarget(new URL(candidate.url),dns,deadline);return videoSource({type:'url',...candidate,format:candidate.format||streamFormat(type,candidate.url),refererOrigin:u.origin});}
+   catch(error){if(Date.now()>=deadline)throw error;}
+  }
+  if(depth<3)for(const embedded of embeddedPageCandidates(page.html,u.href)){
+   try{const found=await inspectPage(new URL(embedded),{dns,request,deadline,visited,depth:depth+1,referer:u});if(found)return found;}
+   catch(error){if(Date.now()>=deadline)throw error;}
+  }
+  return null;
+ }
+ fail(400,'Bu bağlantı çok fazla yönlendiriliyor.');
+}
 export async function resolveVideoLink(input,{dns=lookup,request=requestPage}={}){
- if(input?.mode==='site'){safeUrl(input.url);return videoSource({...input,type:'site'});}
  if(input?.mode==='video')return videoSource({...input,type:'url'});
  try{return videoSource(input);}catch(error){if(!input?.url)throw error;}
- const initial=safeUrl(input.url),deadline=Date.now()+10000;let u=initial;
- for(let redirect=0;redirect<4;redirect++){const target=await publicTarget(u,dns,deadline);if(Date.now()>=deadline)fail(504,'Bağlantı yanıt vermedi.');const page=await request(u,target,deadline-Date.now());if(page.status>=300&&page.status<400){if(!page.headers.location||redirect===3)fail(400,'Bu bağlantı çok fazla yönlendiriliyor.');u=safeUrl(new URL(page.headers.location,u).href);continue;}
-  if(![200,206].includes(page.status))fail(400,'Site bu bağlantıyı açmaya izin vermiyor. Doğrudan video bağlantısı dene.');
-  const type=String(page.headers['content-type']||'');if(/^(video\/|application\/(?:vnd\.apple\.mpegurl|x-mpegurl|dash\+xml))/i.test(type))return videoSource({type:'url',url:u.href,format:/mpegurl/i.test(type)?'hls':/dash\+xml/i.test(type)?'dash':input.format});
-  for(const candidate of mediaCandidates(page.html,u.href)){await publicTarget(new URL(candidate.url),dns,deadline);return videoSource({type:'url',...candidate,refererOrigin:u.origin});}
-  fail(400,'Bu sayfada açık bir video bulunamadı. Sitedeki doğrudan video bağlantısını kullan. Giriş veya özel oynatıcı isteyen siteler desteklenmeyebilir.');
- }
+ const initial=safeUrl(input.url),deadline=Date.now()+10000,visited=new Set();
+ if(input?.mode==='site')await publicTarget(initial,dns,deadline);
+ try{const result=await inspectPage(initial,{dns,request,deadline,visited});if(result)return result;}
+ catch(error){if(input?.mode!=='site'||Date.now()>=deadline)throw error;}
+ if(input?.mode==='site')return videoSource({...input,type:'site'});
+ fail(400,'Bu sayfada açık bir video bulunamadı. Video bağlantısını doğrudan yapıştır. Giriş, DRM veya özel oynatıcı isteyen siteler desteklenmeyebilir.');
 }

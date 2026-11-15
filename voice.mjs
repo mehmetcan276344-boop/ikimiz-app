@@ -1,6 +1,6 @@
 import {randomBytes,createHmac} from 'node:crypto';
 const fail=(status,message)=>{throw Object.assign(new Error(message),{status});};
-export function voiceRooms(db,{now=Date.now,iceServers,turnUrls=process.env.TURN_URLS,turnSecret=process.env.TURN_SHARED_SECRET,relayOnly=process.env.VOICE_RELAY_ONLY!=='0'}={}){
+export function voiceRooms(db,{now=Date.now,iceServers,turnUrls=process.env.TURN_URLS,turnSecret=process.env.TURN_SHARED_SECRET,relayOnly=process.env.VOICE_RELAY_ONLY==='1'}={}){
  const rooms=new Map(),q=(s,...a)=>db.prepare(s).all(...a),id=()=>randomBytes(32).toString('hex');
  function roster(c){return q('SELECT user_id FROM members WHERE couple_id=? ORDER BY user_id',c.id).map(x=>x.user_id);}
  function scope(u,c,b){if(b.coupleId!==c.id)fail(409,'Ortak alanınız değişti.');const users=roster(c);if(users.length!==2||!users.includes(u.id))fail(409,'Sesli oda için sevgilinle eşleşmelisin.');return users;}

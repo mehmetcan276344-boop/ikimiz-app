@@ -1,0 +1,1 @@
+## 3.19.10\n- Harita anılarındaki bağlantılar uygulama içinden güvenli biçimde tarayıcıda açılıyor; eski uygulama sürümleri için kopyalama seçeneği eklendi.\n- Uygulamanın renkleri sıcak krem, gül kurusu, şeftali ve kiremit tonlarıyla yenilendi.\n

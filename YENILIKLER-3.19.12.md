@@ -1,0 +1,1 @@
+## 3.19.12\n- Tek gönderimlik fotoğraf ve videolar artık sohbette, bildirimden ulaşılan yerde açılabilir.\n- Fotoğraf gönderme, görüntüleme ve tek seferlik silme akışı için arayüz regresyon testi eklendi.\n
